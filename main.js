@@ -7,6 +7,7 @@ const h2Elem = document.getElementById('h2');
 const o2Elem = document.getElementById('o2');
 const cElem = document.getElementById('c');
 let h2oElem = null;
+let co2Elem = null;
 
 let dragging = null;
 let items = {
@@ -51,49 +52,74 @@ document.body.addEventListener("mouseleave", evt => {
     }
 });
 
+function contains(array, item){
+    for(let i = 0; i < array.length; i++){
+        if(array[i] === item){
+            return true;
+        }
+    }
+    return false;
+}
+
 document.body.addEventListener("mouseup", evt => {
-    const rect = document.getElementById("palette").getBoundingClientRect();
-    if(rect.left < evt.clientX && evt.clientX < rect.right && rect.top < evt.clientY && evt.clientY < rect.bottom){
+    const rect = palette.getBoundingClientRect();
+    if(contains(container.children, evt.target) && rect.left < evt.clientX && evt.clientX < rect.right && rect.top < evt.clientY && evt.clientY < rect.bottom){
         container.removeChild(evt.target);
         items[evt.target.getAttribute('item')] -= 1;
     }
     dragging = null;
 });
 
+function removeItems(itemsToRemove){
+    outer: for(let i = 0; i < container.children.length;){
+        const child = container.children[i];
+        for(let item in itemsToRemove){
+            if(0 < itemsToRemove[item] && child.getAttribute('item') === item){
+                container.removeChild(child);
+                itemsToRemove[item]--;
+                items[item]--;
+                continue outer;
+            }
+        }
+        i++;
+    }
+}
+
 document.getElementById("chemistry").addEventListener("click", evt => {
     let h2Count = items.h2;
     let o2Count = items.o2;
+    let cCount = items.c;
 
     if(2 <= h2Count && 2 <= o2Count){
         if(!h2oElem){
-            let h2ToRemove = 2;
-            let o2ToRemove = 2;
-            for(let i = 0; i < container.children.length;){
-                const child = container.children[i];
-                if(0 < h2ToRemove && child.getAttribute('item') === 'h2'){
-                    container.removeChild(child);
-                    h2ToRemove--;
-                    items.h2--;
-                    continue;
-                }
-                if(0 < o2ToRemove && child.getAttribute('item') === 'o2'){
-                    container.removeChild(child);
-                    o2ToRemove--;
-                    items.o2--;
-                    continue;
-                }
-                i++;
-            }
+            removeItems({h2: 2, o2: 2});
             const elem = document.createElement("span");
             elem.className = "item noselect";
             elem.id = "h2o";
+            elem.setAttribute('item', 'h2o');
             const textElem = document.createElement("span");
             textElem.className = "nomouse";
-            textElem.innerHTML = "H2O";
+            textElem.innerHTML = "H<sub>2</sub>O";
             elem.addEventListener("mousedown", startDrag);
             elem.appendChild(textElem);
             palette.appendChild(elem);
             h2oElem = elem;
+        }
+    }
+    else if(1 <= cCount && 1 <= o2Count){
+        if(!co2Elem){
+            removeItems({c: 1, o2: 1});
+            const elem = document.createElement("span");
+            elem.className = "item noselect";
+            elem.id = "co2";
+            elem.setAttribute('item', 'co2');
+            const textElem = document.createElement("span");
+            textElem.className = "nomouse";
+            textElem.innerHTML = "CO<sub>2</sub>";
+            elem.addEventListener("mousedown", startDrag);
+            elem.appendChild(textElem);
+            palette.appendChild(elem);
+            co2Elem = elem;
         }
     }
 });
