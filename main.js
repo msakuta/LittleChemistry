@@ -91,9 +91,9 @@ document.getElementById("chemistry").addEventListener("click", evt => {
     let o2Count = items.o2;
     let cCount = items.c;
 
-    if(2 <= h2Count && 2 <= o2Count){
+    if(1 <= h2Count && 1 <= o2Count){
         if(!h2oElem){
-            removeItems({h2: 2, o2: 2});
+            removeItems({h2: 1, o2: 1});
             const elem = document.createElement("span");
             elem.className = "item noselect";
             elem.id = "h2o";
