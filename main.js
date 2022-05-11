@@ -8,6 +8,7 @@ const o2Elem = document.getElementById('o2');
 const cElem = document.getElementById('c');
 let h2oElem = null;
 let co2Elem = null;
+let ch4Elem = null;
 
 let dragging = null;
 let items = {
@@ -120,6 +121,22 @@ document.getElementById("chemistry").addEventListener("click", evt => {
             elem.appendChild(textElem);
             palette.appendChild(elem);
             co2Elem = elem;
+        }
+    }
+    else if(1 <= cCount && 2 <= h2Count){
+        if(!ch4Elem){
+            removeItems({c: 1, h2: 2});
+            const elem = document.createElement("span");
+            elem.className = "item noselect";
+            elem.id = "ch4";
+            elem.setAttribute('item', 'ch4');
+            const textElem = document.createElement("span");
+            textElem.className = "nomouse";
+            textElem.innerHTML = "CH<sub>4</sub>";
+            elem.addEventListener("mousedown", startDrag);
+            elem.appendChild(textElem);
+            palette.appendChild(elem);
+            ch4Elem = elem;
         }
     }
 });
