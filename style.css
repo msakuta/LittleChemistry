@@ -1,0 +1,46 @@
+body {
+    color: #000000;
+    font-family:Monospace;
+    font-size:15px;
+
+    background-color: #f0f0f0;
+}
+
+table {
+    border: solid 2px black;
+}
+
+td {
+    border: solid 2px #999999;
+}
+
+.palette {
+    border: dashed 1px black;
+    padding: 30px;
+}
+
+.item {
+    border: solid 1px black;
+    padding: 15px;
+}
+
+.draggable {
+    position: absolute;
+}
+
+/* Class that prevents text selection by mouse dragging.
+The style is not defined by standard, so we'd write down browser-dependent styles for major browsers.
+Support by IE11 is somewhat incomplete since Ctrl+A selects the text in elements even with this style. */
+.noselect{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;           /* non-prefixed version, currently
+                                not supported by any browser */
+}
+
+.nomouse{
+    pointer-events: none;
+}
